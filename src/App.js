@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import Form from "./Form"
+import Table from "./Table";
+import {useState} from "react";
+import axios from "axios";
+import './style.css'
 
 function App() {
+  const [data, setData] = useState({});
+
+  const getWeather = (city) => {
+    const KEY = 'f4833cf990dc92ef43563c9b00da2a78';
+    const API = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${KEY}`;
+    axios(API)
+    .then(({data}) => {
+      console.log(data);
+      setData(data);
+    })
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper">
+    <Form getWeather={getWeather}/>
+    <Table data={data}/>
     </div>
   );
 }
